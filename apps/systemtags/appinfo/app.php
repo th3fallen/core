@@ -23,7 +23,12 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
+		// FIXME: no public API for these ?
+		\OC_Util::addVendorScript('select2/select2');
+		\OC_Util::addVendorStyle('select2/select2');
 		\OCP\Util::addScript('systemtags', 'app');
+		\OCP\Util::addScript('systemtags', 'systemtagmodel');
+		\OCP\Util::addScript('systemtags', 'systemtagscollection');
 		\OCP\Util::addScript('systemtags', 'systemtagsview');
 		\OCP\Util::addScript('systemtags', 'filesplugin');
 	}

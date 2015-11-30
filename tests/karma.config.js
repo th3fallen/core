@@ -86,6 +86,8 @@ module.exports = function(config) {
 				srcFiles: [
 					// need to enforce loading order...
 					'apps/systemtags/js/app.js',
+					'apps/systemtags/js/systemtagsmodel.js',
+					'apps/systemtags/js/systemtagscollection.js',
 					'apps/systemtags/js/systemtagsview.js',
 					'apps/systemtags/js/filesplugin.js'
 				],
