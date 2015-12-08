@@ -470,7 +470,7 @@ class OC {
 	public static function loadAppClassPaths() {
 		foreach (OC_APP::getEnabledApps() as $app) {
 			$file = OC_App::getAppPath($app) . '/appinfo/classpath.php';
-			if (file_exists($file)) {
+			if ($file !== false && file_exists($file)) {
 				require_once $file;
 			}
 		}
