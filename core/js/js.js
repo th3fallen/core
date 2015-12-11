@@ -227,6 +227,13 @@ var OC={
 	},
 
 	/**
+	 * Reloads the current page
+	 */
+	reload: function() {
+		window.location.reload();
+	},
+
+	/**
 	 * Protocol that is used to access this ownCloud instance
 	 * @return {string} Used protocol
 	 */
@@ -674,6 +681,16 @@ var OC={
 	 */
 	getLocale: function() {
 		return $('html').prop('lang');
+	},
+
+	/**
+	 * Process ajax error, redirects to main page
+	 * if an error/auth error status was returned.
+	 */
+	processAjaxError: function(xhr) {
+		if (_.contains([302, 307, 401], xhr.status)) {
+			OC.reload();
+		}
 	}
 };
 
@@ -1250,19 +1267,11 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
-	$( document ).ajaxError(function( event, request, settings ) {
-		if (request.errorProcessed) {
+	$(document).on('ajaxError.main', function( event, request, settings ) {
+		if (settings && settings.allowAuthErrors) {
 			return;
 		}
-
-		if (_.contains([302, 307, 401], request.status)) {
-			var appClass = $('#content').attr('class');
-			var app = 'files';
-			if (appClass) {
-				app = appClass.substring(4);
-			}
-			OC.redirect(OC.generateUrl('apps/' + app));
-		}
+		OC.processAjaxError(request);
 	});
 
 	/**

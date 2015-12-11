@@ -115,7 +115,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 // global setup for all tests
 (function setupTests() {
 	var fakeServer = null,
-		$testArea = null;
+		$testArea = null,
+		ajaxErrorStub = null;
 
 	/**
 	 * Utility functions for testing
@@ -161,6 +162,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 
 		// dummy select2 (which isn't loaded during the tests)
 		$.fn.select2 = function() {};
+
+		ajaxErrorStub = sinon.stub(OC, 'processAjaxError');
 	});
 
 	afterEach(function() {
@@ -171,6 +174,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		$testArea.remove();
 
 		delete($.fn.select2);
+
+		ajaxErrorStub.restore();
 	});
 })();
 
