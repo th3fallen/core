@@ -163,7 +163,7 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		// dummy select2 (which isn't loaded during the tests)
 		$.fn.select2 = function() {};
 
-		ajaxErrorStub = sinon.stub(OC, 'processAjaxError');
+		ajaxErrorStub = sinon.stub(OC, '_processAjaxError');
 	});
 
 	afterEach(function() {
