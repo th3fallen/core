@@ -1574,7 +1574,7 @@ class View {
 	public function getOwner($path) {
 		$info = $this->getFileInfo($path);
 		if (!$info) {
-			throw new NotFoundException($path . 'not found while trying to get owner');
+			throw new NotFoundException($path . ' not found while trying to get owner');
 		}
 		return $info->getOwner()->getUID();
 	}
@@ -2022,7 +2022,7 @@ class View {
 	public function getUidAndFilename($filename) {
 		$info = $this->getFileInfo($filename);
 		if (!$info instanceof \OCP\Files\FileInfo) {
-			throw new NotFoundException($this->getAbsolutePath($filename) . 'not found');
+			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
 		}
 		$uid = $info->getOwner()->getUID();
 		if ($uid != \OCP\User::getUser()) {
@@ -2031,7 +2031,7 @@ class View {
 			try {
 				$filename = $ownerView->getPath($info['fileid']);
 			} catch (NotFoundException $e) {
-				throw new NotFoundException('File with id ' . $info['fileid'] . 'not found for user ' . $uid);
+				throw new NotFoundException('File with id ' . $info['fileid'] . ' not found for user ' . $uid);
 			}
 		}
 		return [$uid, $filename];
