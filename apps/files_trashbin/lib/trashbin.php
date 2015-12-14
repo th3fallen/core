@@ -62,7 +62,11 @@ class Trashbin {
 	 * @param array $params
 	 */
 	public static function ensureFileScannedHook($params) {
-		self::getUidAndFilename($params['path']);
+		try {
+			self::getUidAndFilename($params['path']);
+		} catch (NotFoundException $e) {
+
+		}
 	}
 
 	/**
