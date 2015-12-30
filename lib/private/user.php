@@ -63,7 +63,22 @@ class OC_User {
 	 * @return \OC\User\Session
 	 */
 	public static function getUserSession() {
-		return OC::$server->getUserSession();
+		static $session;
+		if (!$session) {
+			$session = OC::$server->getUserSession();
+		}
+		return $session;
+	}
+
+	/**
+	 * @return \OCP\ISession
+	 */
+	public static function getSession() {
+		static $session;
+		if (!$session) {
+			$session = OC::$server->getSession();
+		}
+		return $session;
 	}
 
 	private static $_backends = array();
@@ -354,7 +369,7 @@ class OC_User {
 	 * @return string|bool uid or false
 	 */
 	public static function getUser() {
-		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
+		$uid = self::getSession() ? self::getSession()->get('user_id') : null;
 		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
 		} else {
