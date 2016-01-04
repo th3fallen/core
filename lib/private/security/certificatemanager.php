@@ -83,7 +83,8 @@ class CertificateManager implements ICertificateManager {
 			if ($file != '.' && $file != '..') {
 				try {
 					$result[] = new Certificate($this->view->file_get_contents($path . $file), $file);
-				} catch(\Exception $e) {}
+				} catch (\Exception $e) {
+				}
 			}
 		}
 		closedir($handle);
@@ -118,8 +119,11 @@ class CertificateManager implements ICertificateManager {
 		fwrite($fhCerts, $defaultCertificates);
 
 		// Append the system certificate bundle
-		$systemCertificates = $this->view->file_get_contents($this->getCertificateBundle(null));
-		fwrite($fhCerts, $systemCertificates);
+		$systemBundle = $this->getCertificateBundle(null);
+		if ($this->view->file_exists($systemBundle)) {
+			$systemCertificates = $this->view->file_get_contents($systemBundle);
+			fwrite($fhCerts, $systemCertificates);
+		}
 
 		fclose($fhCerts);
 	}
@@ -238,7 +242,7 @@ class CertificateManager implements ICertificateManager {
 			$sourceBundles[] = $this->view->filemtime($this->getCertificateBundle(null));
 		}
 
-		$sourceMTime = array_reduce($sourceMTimes, function($max, $mtime) {
+		$sourceMTime = array_reduce($sourceMTimes, function ($max, $mtime) {
 			return max($max, $mtime);
 		}, 0);
 		return $sourceMTime > $this->view->filemtime($targetBundle);
